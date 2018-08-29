@@ -10,12 +10,10 @@ Vagrant.configure("2") do |config|
         "--target", :id,
         "--name", "ESP",
         "--manufacturer", "Silicon Labs",
-        "--product", "CP2102 USB to UART Bridge Controller"]
+        "--product", "USB2.0-Serial"]
   end
-
+  config.vm.provision "shell", inline: "apt-get update"
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    apt-get update
-
     sudo apt-get -y install make unrar-free autoconf automake libtool gcc g++ gperf \
     flex bison texinfo gawk ncurses-dev libexpat-dev python-dev python python-serial \
     sed git unzip bash help2man wget bzip2 linux-image-extra-virtual
@@ -40,6 +38,12 @@ Vagrant.configure("2") do |config|
     echo 'export SDK_PATH=/home/vagrant/esp-open-rtos' >> .bashrc
 
     git clone --recursive https://github.com/maximkulkin/esp-homekit-demo.git
+    cd esp-homekit-demo
+    git submodule update --init --recursive
+    cp wifi.h.sample wifi.h
+    sed -i 's/mywifi/YourWifiName/g' wifi.h
+    sed -i 's/mypassword/YourWifiPass/g' wifi.h
+    cd ..
 
     sudo modprobe usbserial
     sudo modprobe cp210x
