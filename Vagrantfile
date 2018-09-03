@@ -33,6 +33,8 @@ Vagrant.configure("2") do |config|
     echo 'export ESPPORT=/dev/ttyUSB0' >> .bashrc
     sudo usermod -a -G dialout vagrant
 
+    export FLASH_MODE=dout
+
     # Download esp-open-rtos
     git clone --recursive https://github.com/Superhouse/esp-open-rtos.git
     echo 'export SDK_PATH=/home/vagrant/esp-open-rtos' >> .bashrc
