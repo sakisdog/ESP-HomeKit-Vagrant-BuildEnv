@@ -33,7 +33,8 @@ Vagrant.configure("2") do |config|
     echo 'export ESPPORT=/dev/ttyUSB0' >> .bashrc
     sudo usermod -a -G dialout vagrant
 
-    export FLASH_MODE=dout
+    # Set the dout Mode for NodeMCU boards. If you dont have a NodeMCU board comment this line
+    echo 'export FLASH_MODE=dout' >> .bashrc
 
     # Download esp-open-rtos
     git clone --recursive https://github.com/Superhouse/esp-open-rtos.git
